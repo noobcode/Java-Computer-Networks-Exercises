@@ -1,0 +1,9 @@
+
+public class ServerMain {
+
+	public static void main(String[] args) {
+		SelectSockets sever = new SelectSockets();
+		server.startListening();
+	}
+
+}

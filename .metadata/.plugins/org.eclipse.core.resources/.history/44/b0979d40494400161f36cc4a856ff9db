@@ -1,0 +1,27 @@
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+
+public class Server {
+
+	public static void main(String[] args) {
+		try {
+			//registrazione presso il registry
+			ServerImpl server = new ServerImpl();
+			ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(server, 39000);
+			LocateRegistry.createRegistry(5000);
+			Registry r = LocateRegistry.createRegistry(5000);
+			r.bind("Server", stub);
+			
+			while(true){
+				int val = (int) (Math.random()*1000);
+				System.out.println("nuovo updae " + val);
+				server.update(val);
+				Thread.sleep(1500);
+			}
+		} catch(Exception e){
+			System.out.println("eccezione " + e);
+		}
+	}
+
+}

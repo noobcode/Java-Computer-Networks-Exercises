@@ -1,0 +1,53 @@
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
+
+public class ServerImpl implements ServerInterface{
+
+	// lista dei client registrati
+	private List<NotifyEventInterface> clients;
+	
+	// crea un nuovo servente
+	public ServerImpl() throws RemoteException{
+		super();
+		clients = new ArrayList<NotifyEventInterface>();
+	}
+	
+	@Override
+	public synchronized void registerForCallback(NotifyEventInterface clientInterface) throws RemoteException {
+		if(!clients.contains(clientInterface)){
+			clients.add(clientInterface);
+			System.out.println("nuovo client registrato");
+		}
+		
+	}
+
+	@Override
+	public void unregisterForCallback(NotifyEventInterface clientInterface) throws RemoteException {
+		if(clients.remove(clientInterface)){
+			System.out.println("client cancellato");
+		} else {
+			System.out.println("impossibile cancellare il client");
+		}
+	}
+	
+	/* notifica di una variazione di valore dell'azione.
+	 * quando viene richiamato fa il callback a tutti i client registrati.
+	 */
+	public void update(int value) throws RemoteException{
+		doCallbacks(value);
+	}
+	
+	private synchronized void doCallbacks(int value) throws RemoteException{
+		System.out.println("inizio delle callbacks...");
+		for(NotifyEventInterface c: clients){
+			c.notifyEvent(value);
+		}
+		System.out.println("callbacks completate");
+	}
+	
+	
+		
+}

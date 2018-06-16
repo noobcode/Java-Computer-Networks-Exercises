@@ -1,0 +1,62 @@
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Hashtable;
+
+public class Server extends UnicastRemoteObject implements IServer{
+
+	private static final long serialVersionUID = 1L;
+	private static final int registryPort = 65534;
+	private Hashtable<String, ArrayList<INotifyMessage>> topics;
+	
+	protected Server() throws RemoteException {
+		super();
+		topics = new Hashtable<String, ArrayList<INotifyMessage>>();
+	}
+	
+	public static void main(String[] args) {
+		try {
+			Server server = new Server();
+			LocateRegistry.createRegistry(registryPort);
+			Registry r = LocateRegistry.getRegistry(registryPort);
+			r.bind("//localhost/Forum", server);
+			
+			while(true){
+				synchronized(server){
+					
+				}
+			}
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (AlreadyBoundException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public synchronized void aperturaForum(INotifyMessage client, String forum) throws RemoteException {
+		ArrayList<INotifyMessage> list; 
+		if(!topics.containsKey(forum)){
+			list = new ArrayList<INotifyMessage>();
+			list.add(client);
+		} else {
+			list = topics.get(forum);
+			list.add(client);
+		}
+		topics.put(forum, list);
+	}
+	
+	public synchronized void nuovoMessaggio(String forum, String messaggio){
+		ArrayList<INotifyMessage> clients = topics.get(forum);
+		for(INotifyMessage c: clients)
+			c.notifyMsg(forum, messaggio);
+	}
+	
+	
+
+}

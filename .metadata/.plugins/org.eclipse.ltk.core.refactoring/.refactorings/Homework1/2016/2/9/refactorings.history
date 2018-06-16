@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Convert local variable &apos;Clock.main().s&apos; in &apos;Clock.main()&apos; to field&#x0A;- Original project: &apos;Homework1&apos;&#x0A;- Original element: &apos;Clock.main().s&apos;&#x0A;- Field name: &apos;s&apos;&#x0A;- Initialize field in method&#x0A;- Declared visibility: &apos;private&apos;&#x0A;- Declare field &apos;static&apos;" description="Convert local variable &apos;s&apos; to field" final="false" flags="2" id="org.eclipse.jdt.ui.promote.temp" initialize="1" input="/src&lt;{Clock.java" name="s" selection="117 26" stamp="1456220607166" static="true" version="1.0" visibility="2"/>
+</session>

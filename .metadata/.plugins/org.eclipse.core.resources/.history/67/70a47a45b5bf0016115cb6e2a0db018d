@@ -1,0 +1,24 @@
+import javax.media.*;
+import java.io.*;
+import java.util.*;
+
+public class MP3Play
+{
+ public static void main(String args[]) throws Exception{
+	 	System.out.println("hello");
+//File Path
+ File f=new File("./sounds/gameover.wav");
+ // Create a Player object that realizes the audio
+ final Player p=Manager.createRealizedPlayer(f.toURI().toURL());
+ System.out.println("hello2"); 
+ p.start();
+ System.out.println("hello3");
+ /* Scanner s=new Scanner(System.in);
+  String st=s.nextLine();
+   // If user types 'stop', stop the audio
+   if(st.equals("stop"))
+   {
+   p.stop();
+   }*/
+ }
+}

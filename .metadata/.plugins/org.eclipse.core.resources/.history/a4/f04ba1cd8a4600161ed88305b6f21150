@@ -1,0 +1,10 @@
+import java.rmi.RemoteException;
+				
+public class ServerImpl implements IServer{
+					
+	@Override
+	public void aperturaForum() throws RemoteException {
+		
+	}							
+							
+}

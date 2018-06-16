@@ -1,0 +1,38 @@
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+
+public class Server extends UnicastRemoteObject implements IServer{
+
+	
+	protected Server() throws RemoteException {
+		super();
+	}
+
+	private static final long serialVersionUID = 1L;
+	private static final int registryPort = 65534;
+	
+	
+	public static void main(String[] args) {
+		try {
+			Server server = new Server();
+			LocateRegistry.createRegistry(registryPort);
+			Registry r = LocateRegistry.getRegistry(registryPort);
+			r.bind("//localhost/Forum", server);
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (AlreadyBoundException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void registerForCallback(INotifyMessage client) throws RemoteException {
+		
+	}
+
+}

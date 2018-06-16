@@ -1,0 +1,9 @@
+
+public class ClientMain {
+
+	public static void main(String[] args) {
+		SelectSocketsClient client = new SelectSocketsClient(args[0]);
+		client.TalkToServer();
+	}
+
+}

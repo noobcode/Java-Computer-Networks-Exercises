@@ -1,0 +1,198 @@
+import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Random;
+import java.util.Vector;
+
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import  sun.audio.*;
+
+public class Lamp{
+
+	public static void main(String[] args) throws IOException, InterruptedException {
+		Lamp lamp = new Lamp();
+		try {
+			lamp.playSound("./sounds/wtf.wav");
+		} catch (LineUnavailableException | UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// directories
+		String restDir = "./images/rest/";
+		String motivationalDir = "./images/motivational/";
+		String restcolorDir = "./images/restcolor/";
+		String workcolorDir = "./images/workcolor/";
+		String reminderDir = "./images/reminder/";
+		// image file extension
+		String ext = ".png";
+		int N = 1;
+		
+		Vector<BufferedImage> im_rest = new Vector<BufferedImage>(N);
+		Vector<BufferedImage> im_motivational = new Vector<BufferedImage>(N);
+		Vector<BufferedImage> im_restcolor = new Vector<BufferedImage>(N);
+		Vector<BufferedImage> im_workcolor = new Vector<BufferedImage>(N);
+	    Vector<BufferedImage> im_reminder = new Vector<BufferedImage>(N);
+		  
+		  int mode = 1;
+		  
+		  // 1. load images
+		  for( int i = 0; i < N; i++){
+		    String x = String.valueOf(i);
+		    String n_motivational = motivationalDir + "motivational_" + x + ext;
+		    String n_reminder = reminderDir + "reminder_" + x + ext;
+		    String n_rest = restDir + "rest_" + x + ext;
+		    String n_restcolor = restcolorDir + "restcolor_" + x + ext;
+		    String n_workcolor = workcolorDir + "workcolor_" + x + ext;
+
+		    im_rest.add(ImageIO.read(new File(n_rest)));
+		    im_motivational.add(ImageIO.read(new File(n_motivational)));
+		    im_restcolor.add(ImageIO.read(new File(n_restcolor)));
+		    im_workcolor.add(ImageIO.read(new File(n_workcolor)));
+		    im_reminder.add(ImageIO.read(new File(n_reminder)));
+		  }
+		  
+		  if(mode == 1){
+		    // presentation
+		    tomatoTechnique(im_rest, im_motivational, im_restcolor, im_workcolor, im_reminder);
+		  } else {
+		    // demo
+		    showAll(im_rest, im_motivational, im_restcolor, im_workcolor, im_reminder);
+		  }
+		
+	}
+	
+	// presentation: 1 minute work, 1 minute rest, 1 minute work
+	static void tomatoTechnique(Vector<BufferedImage> im_rest, Vector<BufferedImage> im_motivational, Vector<BufferedImage> im_restcolor, Vector<BufferedImage> im_workcolor, Vector<BufferedImage> im_reminder) throws InterruptedException {
+		int motivational  = 1 * 1000; // seconds
+		int workcolor = 1 * 1000; 
+		int rest = 1 * 1000; 
+		int restcolor = 1 * 1000;
+		int reminder = 1 * 1000;
+		int N = im_rest.size();
+		Random r = new Random(System.currentTimeMillis());
+		// Use a label to display the image
+		JFrame frame = new JFrame();
+		JLabel lblimage = null;
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.setUndecorated(true);
+		
+		do {
+			// motivational
+			lblimage = new JLabel(new ImageIcon(im_motivational.get(r.nextInt(N))));
+			frame.getContentPane().add(lblimage, BorderLayout.CENTER);
+			frame.setVisible(true);
+			Thread.sleep(motivational);
+		    frame.remove(lblimage);
+		    	
+		    //work
+		    lblimage = new JLabel(new ImageIcon(im_workcolor.get(r.nextInt(N))));
+		    frame.getContentPane().add(lblimage, BorderLayout.CENTER);
+		    frame.repaint();
+		    frame.setVisible(true);
+		    Thread.sleep(workcolor);
+		    frame.remove(lblimage);
+		    
+		    // rest
+		    lblimage = new JLabel(new ImageIcon(im_rest.get(r.nextInt(N))));
+			frame.getContentPane().add(lblimage, BorderLayout.CENTER);
+			frame.repaint();
+			frame.setVisible(true);
+		    Thread.sleep(rest);
+		    frame.remove(lblimage);
+		    
+		    // rest color
+		    lblimage = new JLabel(new ImageIcon(im_restcolor.get(r.nextInt(N))));
+			frame.getContentPane().add(lblimage, BorderLayout.CENTER);
+			frame.repaint();
+			frame.setVisible(true);
+			Thread.sleep(restcolor);
+			frame.remove(lblimage);
+		
+		} while(false);
+		
+		// reminder
+	    lblimage = new JLabel(new ImageIcon(im_reminder.get(r.nextInt(N))));
+		frame.getContentPane().add(lblimage, BorderLayout.CENTER);
+		frame.repaint();
+		frame.setVisible(true);
+	    Thread.sleep(reminder);
+		frame.dispose();
+	}
+
+	// demo: show all kind of projections
+	static void showAll(Vector<BufferedImage> im_rest, Vector<BufferedImage> im_motivational, Vector<BufferedImage> im_restcolor, Vector<BufferedImage> im_workcolor, Vector<BufferedImage> im_reminder) throws InterruptedException {
+		int demotime = (int)(60 / (float)(im_rest.size() * 5)) * 1000;
+		System.out.println();
+		// Use a label to display the image
+		JFrame frame = new JFrame();
+		JLabel lblimage = null;
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.setUndecorated(true);
+		for(int i = 0; i < im_rest.size(); i++){
+			// motivational
+			lblimage = new JLabel(new ImageIcon(im_motivational.get(i)));
+			frame.getContentPane().add(lblimage, BorderLayout.CENTER);
+			frame.setVisible(true);
+			Thread.sleep(demotime);
+			frame.remove(lblimage);
+			
+			//work
+			lblimage = new JLabel(new ImageIcon(im_workcolor.get(i)));
+			frame.getContentPane().add(lblimage, BorderLayout.CENTER);
+			frame.repaint();
+			frame.setVisible(true);
+			Thread.sleep(demotime);
+			frame.remove(lblimage);
+					    
+			// rest
+			lblimage = new JLabel(new ImageIcon(im_rest.get(i)));
+			frame.getContentPane().add(lblimage, BorderLayout.CENTER);
+			frame.repaint();
+			frame.setVisible(true);
+			Thread.sleep(demotime);
+			frame.remove(lblimage);
+			    
+			// rest color
+			lblimage = new JLabel(new ImageIcon(im_restcolor.get(i)));
+			frame.getContentPane().add(lblimage, BorderLayout.CENTER);
+			frame.repaint();
+			frame.setVisible(true);
+			Thread.sleep(demotime);
+			frame.remove(lblimage);
+						
+			// reminder
+			lblimage = new JLabel(new ImageIcon(im_reminder.get(i)));
+			frame.getContentPane().add(lblimage, BorderLayout.CENTER);
+			frame.repaint();
+			frame.setVisible(true);
+			Thread.sleep(demotime);
+			frame.dispose();
+			
+		}
+	}
+	
+	void playSound(String soundFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		 // open the sound file as a Java input stream
+	    InputStream in = new FileInputStream(soundFile);
+
+	    // create an audiostream from the inputstream
+	    AudioStream audioStream = new AudioStream(in);
+
+	    // play the audio clip with the audioplayer class
+	    AudioPlayer.player.start(audioStream);
+	}
+	
+
+}

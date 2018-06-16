@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#javac ClientFTP.java
+#javac FTPServer.java Task.java
+
+java FTPServer & 
+
+java ClientFTP /home/carlo/workspace/Homework1/src/Clock.java &
+java ClientFTP /home/carlo/workspace/HelloWorld/src/HelloWorld.java &
+java ClientFTP /home/carlo/workspace/CurrentThread/log.txt &
+

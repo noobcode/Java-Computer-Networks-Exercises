@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;ServerChat.java&apos; to &apos;TaskServer.java&apos;&#x0A;- Original project: &apos;HW12-MinichatRoomNIO&apos;&#x0A;- Destination element: &apos;TaskServer.java&apos;&#x0A;- Original element: &apos;ServerChat.java&apos;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="=HW12-MinichatRoom/src&lt;{TaskServer.java" element1="/src&lt;{ServerChat.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1462607094971" units="1" version="1.0"/>
+</session>

@@ -1,0 +1,93 @@
+*****************
+status of thread0: NEW
+status of thread1: NEW
+status of thread2: NEW
+status of thread3: NEW
+status of thread4: NEW
+status of thread5: NEW
+status of thread6: NEW
+status of thread7: NEW
+status of thread8: NEW
+status of thread9: NEW
+ID 8 Name Thread 0
+Old state NEW -> New state BLOCKED********
+ID 9 Name Thread 1
+Old state NEW -> New state BLOCKED********
+ID 10 Name Thread 2
+Old state NEW -> New state BLOCKED********
+ID 11 Name Thread 3
+Old state NEW -> New state BLOCKED********
+ID 12 Name Thread 4
+Old state NEW -> New state BLOCKED********
+ID 13 Name Thread 5
+Old state NEW -> New state BLOCKED********
+ID 14 Name Thread 6
+Old state NEW -> New state BLOCKED********
+ID 15 Name Thread 7
+Old state NEW -> New state RUNNABLE********
+ID 16 Name Thread 8
+Old state NEW -> New state BLOCKED********
+ID 17 Name Thread 9
+Old state NEW -> New state BLOCKED********
+ID 8 Name Thread 0
+Old state BLOCKED -> New state RUNNABLE********
+ID 13 Name Thread 5
+Old state BLOCKED -> New state RUNNABLE********
+ID 11 Name Thread 3
+Old state BLOCKED -> New state RUNNABLE********
+ID 12 Name Thread 4
+Old state BLOCKED -> New state RUNNABLE********
+ID 13 Name Thread 5
+Old state RUNNABLE -> New state TERMINATED********
+ID 8 Name Thread 0
+Old state RUNNABLE -> New state BLOCKED********
+ID 10 Name Thread 2
+Old state BLOCKED -> New state RUNNABLE********
+ID 11 Name Thread 3
+Old state RUNNABLE -> New state BLOCKED********
+ID 12 Name Thread 4
+Old state RUNNABLE -> New state BLOCKED********
+ID 10 Name Thread 2
+Old state RUNNABLE -> New state TERMINATED********
+ID 9 Name Thread 1
+Old state BLOCKED -> New state RUNNABLE********
+ID 9 Name Thread 1
+Old state RUNNABLE -> New state TERMINATED********
+ID 8 Name Thread 0
+Old state BLOCKED -> New state RUNNABLE********
+ID 8 Name Thread 0
+Old state RUNNABLE -> New state TERMINATED********
+ID 11 Name Thread 3
+Old state BLOCKED -> New state TERMINATED********
+ID 12 Name Thread 4
+Old state BLOCKED -> New state RUNNABLE********
+ID 12 Name Thread 4
+Old state RUNNABLE -> New state TERMINATED********
+ID 16 Name Thread 8
+Old state BLOCKED -> New state BLOCKED********
+ID 17 Name Thread 9
+Old state BLOCKED -> New state RUNNABLE********
+ID 15 Name Thread 7
+Old state BLOCKED -> New state TERMINATED********
+ID 16 Name Thread 8
+Old state BLOCKED -> New state BLOCKED********
+ID 17 Name Thread 9
+Old state RUNNABLE -> New state BLOCKED********
+ID 16 Name Thread 8
+Old state BLOCKED -> New state RUNNABLE********
+ID 14 Name Thread 6
+Old state BLOCKED -> New state RUNNABLE********
+ID 16 Name Thread 8
+Old state RUNNABLE -> New state BLOCKED********
+ID 14 Name Thread 6
+Old state RUNNABLE -> New state BLOCKED********
+ID 16 Name Thread 8
+Old state BLOCKED -> New state RUNNABLE********
+ID 17 Name Thread 9
+Old state RUNNABLE -> New state BLOCKED********
+ID 14 Name Thread 6
+Old state BLOCKED -> New state TERMINATED********
+ID 16 Name Thread 8
+Old state BLOCKED -> New state RUNNABLE********
+ID 16 Name Thread 8
+Old state RUNNABLE -> New state TERMINATED********

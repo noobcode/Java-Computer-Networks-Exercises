@@ -1,0 +1,22 @@
+import java.io.*;
+import java.net.*;
+
+public class Task implements Runnable{
+	
+	private Socket socket;
+	
+	public Task(Socket s){
+		socket = s;
+	}
+	
+	public void run(){
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+}

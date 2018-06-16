@@ -1,0 +1,224 @@
+package Client;
+
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class SocialClient {
+	
+	private String username;
+	private String password;
+	private String UID;
+	private static Socket socket;
+	private static ServerSocket socketAccept;
+	private static String remoteAddress = "localhost";
+	private static int remotePort = 52609;
+	private static int listeningPort;
+	
+	public static void main(String[] args) {
+		SocialClient client = new SocialClient();
+		//checkArgs(args);
+		while(true){
+			client.initialWindow();
+		}
+	}
+	
+	/*private static void checkArgs(String[] args){
+		if(args.length == 2){
+			remoteAddress = args[0];
+			try {
+				remotePort = Integer.parseInt(args[1]);
+			} catch(NumberFormatException e){
+				e.printStackTrace();
+			}
+		}
+	}*/
+	
+	private void initialWindow(){
+		printMenu();
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		int operation = 0;
+		try {
+			operation = Integer.parseInt(in.readLine());
+		} catch (NumberFormatException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		switch(operation){
+			case 1: 
+				signIn(operation, in);
+				break;
+			case 2:
+				login(operation, in);
+				break;
+			case 3:
+				friendRequest(operation, in);
+				break;
+			case 4:
+				showFriendRequest(operation, in);
+				break;
+				
+		}
+	}
+	
+	private void signIn(int operation, BufferedReader in ){
+		BufferedWriter writer = null;
+		BufferedReader reader = null;
+		
+		try {
+			username = in.readLine();
+			password = in.readLine();
+			
+			socket = new Socket(remoteAddress, remotePort);
+			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
+			writer.write(operation);
+			writer.write(username);
+			writer.newLine();
+			writer.write(password);
+			writer.newLine();
+			writer.flush();
+			
+			String response = reader.readLine();
+			System.out.println(response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(writer != null) writer.close();
+				if(reader != null) reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void login(int operation, BufferedReader in){
+		BufferedReader reader = null;
+		BufferedWriter writer = null;
+		
+		try{
+			System.out.println("username e password per accedere");
+			String usr = in.readLine();
+			String psw = in.readLine();
+			
+			socket = new Socket(remoteAddress, remotePort);
+			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
+			writer.write(operation);
+			writer.write(usr);
+			writer.newLine();
+			writer.write(psw);
+			writer.newLine();
+			writer.flush();
+			
+			// riceve il token e la porta per ascoltare
+			String msg = reader.readLine();
+			if(msg.equals("NO")){
+				System.out.println("error: login failed");
+			} else {
+				listeningPort = reader.read();
+				UID = msg;
+				System.out.println("sono online e il mio UID è " + UID + " e la mia listening port è " + listeningPort);
+				// una volta che si è online si possono ricevere messaggi dal server
+				Thread t = new Thread(new TaskConnection(new ServerSocket(listeningPort)));
+				t.setDaemon(true);
+				t.start();
+			}
+			
+		} catch(IOException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(reader != null) reader.close();
+				if(writer != null) writer.close();
+			} catch(IOException e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void friendRequest(int operation, BufferedReader in){		
+		BufferedReader reader = null;
+		BufferedWriter writer = null;
+		try {
+			System.out.println("insert a username.");
+			String friend = in.readLine();
+			
+			socket = new Socket(remoteAddress, remotePort);
+			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
+			writer.write(operation);
+			writer.write(username);
+			writer.newLine();
+			writer.write(friend);
+			writer.newLine();
+			writer.flush();
+			
+			String response = reader.readLine();
+			System.out.println(response);
+		} catch(IOException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(reader != null) reader.close();
+				if(writer != null) writer.close();
+			} catch(IOException e){
+				e.printStackTrace();
+			}
+		}		
+	}
+	
+	public void showFriendRequest(int operation, BufferedReader in){
+		BufferedReader reader = null;
+		BufferedWriter writer = null;
+		try {
+			socket = new Socket(remoteAddress, remotePort);
+			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
+			writer.write(operation);
+			writer.write(username);
+			writer.newLine();
+			writer.flush();
+			
+			System.out.println("le richieste di amicizia pendenti sono:");
+			String line;
+			while(!(line = reader.readLine()).equals("END"))
+				System.out.println(line);
+			
+			System.out.println("scegli un nome e indica SI per accettare, NO per rifiutare");
+			String userB = in.readLine();
+			String choice = in.readLine();
+			
+			writer.write(userB);
+			writer.newLine();
+			writer.write(choice);
+			writer.newLine();
+			writer.flush();
+			
+			String response = reader.readLine();
+			System.out.println(response);
+		} catch(IOException e) {
+			e.printStackTrace();
+		} finally{
+			try {
+				if(reader != null) reader.close();
+				if(writer != null) writer.close();
+			} catch(IOException e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	void printMenu(){
+		System.out.println("press (1) to sign in");
+		System.out.println("press (2) to login");
+		System.out.println("press (3) to submit a friend request");
+		System.out.println("press (4) to view your friend requests");
+	}
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Encapsulate field &apos;simpleSocial.User.messagesToSend&apos; in &apos;simpleSocial.User&apos;&#x0A;- Original project: &apos;Progetto SimpleSocial&apos;&#x0A;- Original element: &apos;simpleSocial.User.messagesToSend&apos;&#x0A;- Getter method name: &apos;getMessagesToSend&apos;&#x0A;- Setter method name: &apos;setMessagesToSend&apos;&#x0A;- Field visibility: &apos;public&apos;&#x0A;- Use getter and setter methods in declaring type" comments="false" declaring="true" description="Encapsulate field &apos;messagesToSend&apos;" flags="589830" getter="getMessagesToSend" id="org.eclipse.jdt.ui.self.encapsulate" input="/src&lt;simpleSocial{User.java[User^messagesToSend" insertion="20" setter="setMessagesToSend" stamp="1468931118069" version="1.0" visibility="1"/>
+</session>
